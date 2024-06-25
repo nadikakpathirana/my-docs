@@ -330,395 +330,401 @@ This document provides an overview of various LINQ methods in C#, along with def
 - **LastOrDefault** (immediate execution)
   Returns the last element of a sequence, or a default value if the sequence contains no elements.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var emptyList = new List<int>();
+    var lastOrDefaultElement = emptyList.LastOrDefault();
+    lastOrDefaultElement.Dump();  // Output: 0 (default value for int)
     ```
 
 - **ElementAt** (immediate execution)
   Returns the element at a specified index in a sequence.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var elementAtIndex = numbers.ElementAt(2);
+    elementAtIndex.Dump();  // Output: 3
     ```
 
 - **ElementAtOrDefault** (immediate execution)
   Returns the element at a specified index in a sequence, or a default value if the index is out of range.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var elementAtOrDefaultIndex = numbers.ElementAtOrDefault(10);
+    elementAtOrDefaultIndex.Dump();  // Output: 0 (default value for int)
     ```
 
 - **DefaultIfEmpty** (immediate execution)
   Returns the elements of the specified sequence or the type parameter's default value in a singleton collection if the sequence is empty.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var emptyList = new List<int>();
+    var defaultIfEmpty = emptyList.DefaultIfEmpty();
+    defaultIfEmpty.Dump();  // Output: 0 (default value for int)
     ```
 
 ## Conversion Methods
 - **ToArray** (immediate execution)
   Creates an array from a `IEnumerable<T>`.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var array = numbers.ToArray();
+    array.Dump();  // Output: [1, 2, 3, 4, 5]
     ```
 
 - **ToList** (immediate execution)
   Creates a `List<T>` from an `IEnumerable<T>`.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var list = numbers.ToList();
+    list.Dump();  // Output: List<int> { 1, 2, 3, 4, 5 }
     ```
 
 - **ToDictionary** (immediate execution)
   Creates a `Dictionary<TKey,TValue>` from an `IEnumerable<T>` according to specified key selector and element selector functions.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var people = new List<Person>
+    {
+        new Person { Id = 1, Name = "John" },
+        new Person { Id = 2, Name = "Jane" },
+        new Person { Id = 3, Name = "Jake" }
+    };
+    var dictionary = people.ToDictionary(p => p.Id, p => p.Name);
+    dictionary.Dump();  
+    // Output: 
+    // {
+    //   { 1, "John" },
+    //   { 2, "Jane" },
+    //   { 3, "Jake" }
+    // }
     ```
 
 - **ToHashSet** (immediate execution)
   Creates a `HashSet<T>` from an `IEnumerable<T>`.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 2, 1, 4 };
+    var hashSet = numbers.ToHashSet();
+    hashSet.Dump();  // Output: HashSet<int> { 1, 2, 3, 4 }
     ```
 
 - **ToLookup** (immediate execution)
   Creates a `Lookup<TKey, TElement>` from an `IEnumerable<T>` according to specified key selector and element selector functions.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var people = new List<Person>
+    {
+        new Person { Id = 1, Name = "John", City = "New York" },
+        new Person { Id = 2, Name = "Jane", City = "London" },
+        new Person { Id = 3, Name = "Jake", City = "New York" }
+    };
+    var lookup = people.ToLookup(p => p.City, p => p.Name);
+    lookup.Dump();
+    // Output:
+    // { "New York" => ["John", "Jake"],
+    //   "London" => ["Jane"] }
     ```
 
 ## Generation Methods
 - **AsEnumerable** (deferred execution)
   Returns the input typed as `IEnumerable<T>`.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var result = numbers.AsEnumerable();
+    result.Dump();  // Output: 1, 2, 3, 4, 5
     ```
 
 - **AsQueryable** (deferred execution)
   Converts an `IEnumerable` to an `IQueryable`.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var result = numbers.AsQueryable();
+    result.Dump();  // Output: 1, 2, 3, 4, 5
     ```
 
 - **Range** (immediate execution)
   Generates a sequence of integral numbers within a specified range.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var result = Enumerable.Range(1, 5);
+    result.Dump();  // Output: 1, 2, 3, 4, 5
     ```
 
 - **Repeat** (immediate execution)
   Generates a sequence that contains one repeated value.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var result = Enumerable.Repeat("Hello", 3);
+    result.Dump();  // Output: "Hello", "Hello", "Hello"
     ```
 
 - **Empty** (immediate execution)
   Returns an empty `IEnumerable<T>` that has the specified type argument.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var result = Enumerable.Empty<int>();
+    result.Dump();  // Output: <empty sequence>
     ```
 
 ## Set Operations
 - **Distinct** (deferred execution)
   Returns distinct elements from a sequence by using the default equality comparer to compare values.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 2, 3, 4, 4, 5 };
+    var result = numbers.Distinct();
+    result.Dump();  // Output: 1, 2, 3, 4, 5
     ```
 
 - **DistinctBy** (deferred execution)
   Returns distinct elements from a sequence according to a specified key selector function.
     ```csharp
-    
-    ```
-
-    ```console
-
+    var people = new List<Person>
+    {
+        new Person { Name = "John", Age = 30 },
+        new Person { Name = "Jane", Age = 25 },
+        new Person { Name = "John", Age = 35 }
+    };
+    var result = people.DistinctBy(p => p.Name);
+    result.Dump();  // Output: John (30), Jane (25)
     ```
 
 - **Union** (deferred execution)
   Produces the set union of two sequences by using the default equality comparer.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers1 = new List<int> { 1, 2, 3 };
+    var numbers2 = new List<int> { 3, 4, 5 };
+    var result = numbers1.Union(numbers2);
+    result.Dump();  // Output: 1, 2, 3, 4, 5
     ```
 
 - **Intersect** (deferred execution)
   Produces the set intersection of two sequences by using the default equality comparer to compare values.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers1 = new List<int> { 1, 2, 3 };
+    var numbers2 = new List<int> { 2, 3, 4 };
+    var result = numbers1.Intersect(numbers2);
+    result.Dump();  // Output: 2, 3
     ```
 
 - **Except** (deferred execution)
   Produces the set difference of two sequences by using the default equality comparer to compare values.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers1 = new List<int> { 1, 2, 3 };
+    var numbers2 = new List<int> { 2, 3, 4 };
+    var result = numbers1.Except(numbers2);
+    result.Dump();  // Output: 1
     ```
 
 - **ExceptBy** (deferred execution)
   Produces the set difference of two sequences according to a specified key selector function.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var people1 = new List<Person>
+    {
+        new Person { Name = "John", Age = 30 },
+        new Person { Name = "Jane", Age = 25 }
+    };
+    var people2 = new List<Person>
+    {
+        new Person { Name = "Jane", Age = 30 },
+        new Person { Name = "Sam", Age = 35 }
+    };
+    var result = people1.ExceptBy(people2, p => p.Name);
+    result.Dump();  // Output: John (30)
     ```
 
 - **IntersectBy** (deferred execution)
   Produces the set intersection of two sequences according to a specified key selector function.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var people1 = new List<Person>
+    {
+        new Person { Name = "John", Age = 30 },
+        new Person { Name = "Jane", Age = 25 }
+    };
+    var people2 = new List<Person>
+    {
+        new Person { Name = "Jane", Age = 30 },
+        new Person { Name = "Sam", Age = 35 }
+    };
+    var result = people1.IntersectBy(people2, p => p.Name);
+    result.Dump();  // Output: Jane (25)
     ```
 
 - **SequenceEqual** (immediate execution)
   Determines whether two sequences are equal by comparing the elements by using the default equality comparer for their type.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers1 = new List<int> { 1, 2, 3 };
+    var numbers2 = new List<int> { 1, 2, 3 };
+    bool areEqual = numbers1.SequenceEqual(numbers2);
+    areEqual.Dump();  // Output: True
     ```
 
 ## Joining and Grouping
 - **Zip** (deferred execution)
   Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3 };
+    var words = new List<string> { "one", "two", "three" };
+    var zipped = numbers.Zip(words, (n, w) => $"{n}-{w}");
+    zipped.Dump();  // Output: "1-one", "2-two", "3-three"
     ```
 
 - **Join** (deferred execution)
   Correlates the elements of two sequences based on matching keys.
     ```csharp
-        
-    ```
+    var people = new List<Person>
+    {
+        new Person { Id = 1, Name = "John" },
+        new Person { Id = 2, Name = "Jane" },
+        new Person { Id = 3, Name = "Jake" }
+    };
 
-    ```console
+    var pets = new List<Pet>
+    {
+        new Pet { Name = "Fluffy", OwnerId = 1 },
+        new Pet { Name = "Milo", OwnerId = 2 }
+    };
 
+    var joinResult = people.Join(
+        pets,
+        person => person.Id,
+        pet => pet.OwnerId,
+        (person, pet) => new { person.Name, pet.Name });
+
+    joinResult.Dump();  // Output: { Name = "John", Name = "Fluffy" }, { Name = "Jane", Name = "Milo" }
     ```
 
 - **GroupJoin** (deferred execution)
   Correlates the elements of two sequences based on key equality, and groups the results.
     ```csharp
-        
-    ```
+    var groupJoinResult = people.GroupJoin(
+        pets,
+        person => person.Id,
+        pet => pet.OwnerId,
+        (person, pets) => new { person.Name, Pets = pets.Select(pet => pet.Name).ToList() });
 
-    ```console
-
+    groupJoinResult.Dump();  // Output: { Name = "John", Pets = ["Fluffy"] }, { Name = "Jane", Pets = ["Milo"] }, { Name = "Jake", Pets = [] }
     ```
 
 - **Concat** (deferred execution)
   Concatenates two sequences.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers1 = new List<int> { 1, 2, 3 };
+    var numbers2 = new List<int> { 4, 5, 6 };
+    var concatenated = numbers1.Concat(numbers2);
+    concatenated.Dump();  // Output: 1, 2, 3, 4, 5, 6
     ```
 
 - **GroupBy** (deferred execution)
   Groups the elements of a sequence according to a specified key selector function.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var words = new List<string> { "apple", "banana", "apricot", "blueberry" };
+    var grouped = words.GroupBy(word => word[0]);
+    grouped.Dump();  // Output: { Key = 'a', Values = ["apple", "apricot"] }, { Key = 'b', Values = ["banana", "blueberry"] }
     ```
 
 ## Sorting
 - **OrderBy** (deferred execution)
   Sorts the elements of a sequence in ascending order according to a key.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 5, 2, 8, 3, 1 };
+    var result = numbers.OrderBy(n => n);
+    result.Dump();  // Output: 1, 2, 3, 5, 8
     ```
 
 - **OrderByDescending** (deferred execution)
   Sorts the elements of a sequence in descending order according to a key.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 5, 2, 8, 3, 1 };
+    var result = numbers.OrderByDescending(n => n);
+    result.Dump();  // Output: 8, 5, 3, 2, 1
     ```
 
 - **ThenBy** (deferred execution)
   Performs a subsequent ordering of the elements in a sequence in ascending order according to a key.
     ```csharp
-        
-    ```
+    var people = new List<Person>
+    {
+        new Person { FirstName = "John", LastName = "Doe" },
+        new Person { FirstName = "Jane", LastName = "Smith" },
+        new Person { FirstName = "John", LastName = "Smith" },
+    };
 
-    ```console
-
+    var result = people.OrderBy(p => p.LastName).ThenBy(p => p.FirstName);
+    result.Dump();
+    // Output: John Doe, Jane Smith, John Smith
     ```
 
 - **ThenByDescending** (deferred execution)
   Performs a subsequent ordering of the elements in a sequence in descending order according to a key.
     ```csharp
-        
-    ```
+    var people = new List<Person>
+    {
+        new Person { FirstName = "John", LastName = "Doe" },
+        new Person { FirstName = "Jane", LastName = "Smith" },
+        new Person { FirstName = "John", LastName = "Smith" },
+    };
 
-    ```console
-
+    var result = people.OrderBy(p => p.LastName).ThenByDescending(p => p.FirstName);
+    result.Dump();
+    // Output: John Doe, John Smith, Jane Smith
     ```
 
 - **Reverse** (deferred execution)
   Inverts the order of the elements in a sequence.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 1, 2, 3, 4, 5 };
+    var result = numbers.Reverse();
+    result.Dump();  // Output: 5, 4, 3, 2, 1
     ```
 
 - **Order** (deferred execution)
   Sorts the elements of a sequence in ascending order. Equivalent to `OrderBy`.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 5, 2, 8, 3, 1 };
+    var result = numbers.Order();
+    result.Dump();  // Output: 1, 2, 3, 5, 8
     ```
 
 - **OrderDescending** (deferred execution)
   Sorts the elements of a sequence in descending order. Equivalent to `OrderByDescending`.
     ```csharp
-
-    ```
-
-    ```console
-
+    var numbers = new List<int> { 5, 2, 8, 3, 1 };
+    var result = numbers.OrderDescending();
+    result.Dump();  // Output: 8, 5, 3, 2, 1
     ```
 
 ## Parallel LINQ (PLINQ)
 - **AsParallel** (deferred execution)
-  Enables parallelization of a query.
+  The `AsParallel` method enables parallelization of a query.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = Enumerable.Range(1, 10);
+    var parallelQuery = numbers.AsParallel().Select(n => n * 2);
+    parallelQuery.Dump();  // Output (order might vary): 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
     ```
 
 - **WithDegreeOfParallelism**
-  Sets the degree of parallelism for a query.
+  The `WithDegreeOfParallelism` method sets the degree of parallelism, i.e., the number of concurrent tasks to be used for the query.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = Enumerable.Range(1, 10);
+    var parallelQuery = numbers.AsParallel().WithDegreeOfParallelism(4).Select(n => n * 2);
+    parallelQuery.Dump();  // Output (order might vary): 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
     ```
 
 - **WithExecutionMode**
-  Sets the execution mode of the parallel query.
+  The `WithExecutionMode` method sets the execution mode of the parallel query, which can force parallelism.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = Enumerable.Range(1, 10);
+    var parallelQuery = numbers.AsParallel()
+                            .WithExecutionMode(ParallelExecutionMode.ForceParallelism)
+                            .Select(n => n * 2);
+    parallelQuery.Dump();  // Output (order might vary): 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
     ```
 
 - **WithMergeOptions**
-  Sets the merge options for the parallel query.
+  The `WithMergeOptions` method sets the merge options for the parallel query, affecting how the results are buffered and output.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = Enumerable.Range(1, 10);
+    var parallelQuery = numbers.AsParallel()
+                            .WithMergeOptions(ParallelMergeOptions.NotBuffered)
+                            .Select(n => n * 2);
+    parallelQuery.Dump();  // Output (order might vary): 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 
     ```
 
 - **AsOrdered**
-  Preserves the order of the elements in a parallel query.
+  The `AsOrdered` method preserves the ordering of the elements in a parallel query.
     ```csharp
-        
-    ```
-
-    ```console
-
+    var numbers = Enumerable.Range(1, 10);
+    var parallelQuery = numbers.AsParallel().AsOrdered().Select(n => n * 2);
+    parallelQuery.Dump();  // Output: 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
     ```
